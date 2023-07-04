@@ -7,12 +7,32 @@ module.exports = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      fontFamily: {
+        inter: 'var(--font-inter)'
       },
+      maxHeight: {
+        category: "calc(100vh - (10rem))",
+        list: "calc(100vh - (22rem))",
+      },
+      minHeight: {
+        content: 'calc(100vh - (3rem))'
+      },
+
+      animation: {
+        fade: 'fade .3s'
+      },
+
+      keyframes: {
+        fade: {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 },
+        }
+      }
+
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar'),
+    require('@tailwindcss/forms'),
+  ],
 }
