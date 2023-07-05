@@ -1,20 +1,27 @@
+'use client'
+import { UserButton , useUser } from "@clerk/nextjs";
 import { Plus } from "lucide-react";
 
 export function Desktop() {
+  const {user} = useUser()
+  const name = user?.id
+  console.log(name);
+  
   return (
     <aside className= 'hidden  bg-zinc-900 lg:flex max-h-screen flex-col border-r border-zinc-700 w-full max-w-xs '>
-    <div className='flex gap-2 items-center px-4 py-5'>
-      {/* Image */}
-      <div className='w-14 h-14 rounded-full bg-slate-400' />
-      <div className='flex flex-col'>
-        <span className='text-xs text-zinc-600'>bem vindo!</span>
-        <span className='text-sm'>Alex Camargo</span>
-      </div>
-
-     
+    <div className='flex gap-2 items-center px-4 py-5   '>
+      <UserButton  appearance={{
+        elements:{
+          userButtonBox: 'flex flex-row-reverse',
+          userButtonOuterIdentifier: 'text-zinc-500 text-sm lowercase',
+          avatarBox: 'w-14 h-14',
+          userButtonPopoverFooter: 'hidden'
+        }
+      }} showName  afterSignOutUrl="/"/>
+      {/* Image */}     
     </div>
 
-    <div className='flex-1 mt-8 px-4 py-5 o overflow-hidden overflow-y-auto scrollbar-thin scrollbar-track-zinc-900 scrollbar-thumb-zinc-800'>
+    <div className='flex-1 mt-8  px-4 py-5 o overflow-hidden overflow-y-auto scrollbar-thin scrollbar-track-zinc-900 scrollbar-thumb-zinc-800'>
         <span className='font-semibold text-xl text-center block'>Categorias</span>
         {/* <div className='border-b my-2  border-zinc-700 mb-6' /> */}
         <ul className=' text-zinc-300 text-sm max-h-category  capitalize divide-y divide-teal-800 max-h[]'>
