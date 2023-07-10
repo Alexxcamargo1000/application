@@ -16,6 +16,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+
+  
   return (
     <ClerkProvider localization={ptBR} appearance={{
       baseTheme: dark,
@@ -27,7 +29,9 @@ export default function RootLayout({
       }
     }}>
       <html lang="en">
-        <body className={`${inter.variable} font-inter`}>{children}</body>
+        <body className={`${inter.variable} font-inter`}>
+          {children}
+          </body>
       </html>
     </ClerkProvider>
   )

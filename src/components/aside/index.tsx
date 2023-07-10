@@ -1,11 +1,21 @@
+
+
+import { UserButton } from "../UserButton";
 import { Desktop } from "./Desktop";
 import { Mobile } from "./Mobile";
 
-export function Aside() {
+
+export async function Aside() {
+
+
+  
   return (
-   <>
-    <Desktop />
-    <Mobile/>
-   </>
+    <>
+      <div className="fixed top-6 left-6 hidden max-lg:block">
+        <UserButton />
+      </div>
+      <Desktop />
+      <Mobile />
+    </>
   )
 }

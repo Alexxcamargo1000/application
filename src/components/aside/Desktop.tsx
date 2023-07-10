@@ -1,23 +1,29 @@
 'use client'
-import { UserButton , useUser } from "@clerk/nextjs";
 import { Plus } from "lucide-react";
+import { UserButton } from "../UserButton";
+import { Category } from "@prisma/client";
+import { useStory } from "@/store";
+import { useEffect } from "react";
+
 
 export function Desktop() {
-  const {user} = useUser()
-  const name = user?.id
-  console.log(name);
-  
+
+  const {categories, load, setCurrentCategory} = useStory(story => {
+    return {
+      load: story.load,
+      categories: story.categories,
+      setCurrentCategory: story.setCurrentCategory
+    }
+  })
+
+  useEffect(() => {
+    load()
+  }, [load])
+
   return (
     <aside className= 'hidden  bg-zinc-900 lg:flex max-h-screen flex-col border-r border-zinc-700 w-full max-w-xs '>
     <div className='flex gap-2 items-center px-4 py-5   '>
-      <UserButton  appearance={{
-        elements:{
-          userButtonBox: 'flex flex-row-reverse',
-          userButtonOuterIdentifier: 'text-zinc-500 text-sm lowercase',
-          avatarBox: 'w-14 h-14',
-          userButtonPopoverFooter: 'hidden'
-        }
-      }} showName  afterSignOutUrl="/"/>
+        <UserButton />
       {/* Image */}     
     </div>
 
@@ -25,15 +31,11 @@ export function Desktop() {
         <span className='font-semibold text-xl text-center block'>Categorias</span>
         {/* <div className='border-b my-2  border-zinc-700 mb-6' /> */}
         <ul className=' text-zinc-300 text-sm max-h-category  capitalize divide-y divide-teal-800 max-h[]'>
-          <li className='p-3   transition-colors'>
-            <button className='w-full h-full text-left hover:opacity-70'>Casa</button>
+          {categories.map(category => (
+            <li key={category.id} className='p-3   transition-colors'>
+            <button onClick={() => setCurrentCategory(category.id)}  className='w-full h-full text-left hover:opacity-70'>{category.name}</button>
           </li>
-          <li className='p-3   transition-colors'>
-            <button className='w-full h-full text-left hover:opacity-70'>Trabalho</button>
-          </li>
-          <li className='p-3   transition-colors'>
-            <button className='w-full h-full text-left hover:opacity-70'>Mercado</button>
-          </li>
+          ))}
         </ul>
       </div>
 

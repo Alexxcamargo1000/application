@@ -9,3 +9,25 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+model Task {
+  id         String   @id @default(uuid())
+  userId     String
+  content    String
+  categoryId String
+  ischecked  Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  @@index([userId, categoryId])
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  userId    String
+  name      String   @unique
+  createdAt DateTime @default(now())
+  tasks     Task[]
+
+  @@index([userId, name])
+}
