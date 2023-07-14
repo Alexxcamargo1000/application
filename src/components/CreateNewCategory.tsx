@@ -1,5 +1,5 @@
 'use client'
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -8,37 +8,34 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { useStory } from "@/store"
-import { Plus } from "lucide-react"
-import { FormEvent, useState } from "react"
-
+} from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { useStory } from '@/store'
+import { Plus } from 'lucide-react'
+import { FormEvent, useState } from 'react'
 
 interface CreateNewCategoryProps {
-  className:  string
-} 
+  className: string
+}
 
-export function CreateNewCategory({className}: CreateNewCategoryProps) {
-  const [name, setName] = useState("")
-  const {createNewCategory} = useStory((store) => {
+export function CreateNewCategory({ className }: CreateNewCategoryProps) {
+  const [name, setName] = useState('')
+  const { createNewCategory } = useStory((store) => {
     return {
-      createNewCategory: store.createCategory
+      createNewCategory: store.createCategory,
     }
   })
 
-
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
-    if(!name) {
+    if (!name) {
       return
     }
 
     createNewCategory(name)
-    console.log("oi");
+    console.log('oi')
     setName('')
-    
   }
   return (
     <Dialog>
@@ -61,18 +58,20 @@ export function CreateNewCategory({className}: CreateNewCategoryProps) {
               <Label htmlFor="category" className="text-right">
                 Categoria
               </Label>
-              <Input 
-                id="category" 
-                placeholder="Nome da categoria" 
-                className="col-span-3 bg-zinc-900 border-zinc-900 focus:outline-none focus:ring-1 focus:ring-teal-600 placeholder:text-zinc-500" 
+              <Input
+                id="category"
+                placeholder="Nome da categoria"
+                className="col-span-3 bg-zinc-900 border-zinc-900 focus:outline-none focus:ring-1 focus:ring-teal-600 placeholder:text-zinc-500"
                 value={name}
-                onChange={(e) => setName(e.target.value) }
+                onChange={(e) => setName(e.target.value)}
               />
             </div>
           </div>
           <DialogFooter>
             <DialogTrigger asChild>
-              <Button type="submit" className="bg-teal-600 hover:bg-teal-700">Salvar</Button>
+              <Button type="submit" className="bg-teal-600 hover:bg-teal-700">
+                Salvar
+              </Button>
             </DialogTrigger>
           </DialogFooter>
         </form>

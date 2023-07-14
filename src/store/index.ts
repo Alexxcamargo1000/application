@@ -1,22 +1,15 @@
 import { create } from 'zustand'
-import type { Task, Category } from "@prisma/client"
+import type { Task, Category } from '@prisma/client'
 import axios from 'axios'
 
-
-interface TaskStoreProps {
-  task: Task | null,
-  tasks: Task[] | [],
-
-}
-
 interface CategoryStoreProps {
-  categories: Category[] | [],
-  tasks: Task[] | [],
-  currentCategory: Category | null,
-  isLoadingTask: boolean,
-  numberTaskCompleted: number,
-  setCurrentCategory: (id: string) => void,
-  createCategory: (name: string) => Promise<void>,
+  categories: Category[] | []
+  tasks: Task[] | []
+  currentCategory: Category | null
+  isLoadingTask: boolean
+  numberTaskCompleted: number
+  setCurrentCategory: (id: string) => void
+  createCategory: (name: string) => Promise<void>
   load: () => Promise<void>
   loadTask: (currentCategory: Category) => Promise<void>
   updateTask: (isChecked: boolean, taskId: string) => Promise<void>
@@ -24,8 +17,6 @@ interface CategoryStoreProps {
   deleteTask: (taskId: string) => Promise<void>
   finishedTask: () => Promise<void>
 }
-
-
 
 export const useStory = create<CategoryStoreProps>((set, get) => {
   return {
@@ -36,37 +27,35 @@ export const useStory = create<CategoryStoreProps>((set, get) => {
     numberTaskCompleted: 0,
 
     createCategory: async (name: string) => {
-      const hasCategory = get().categories.find(category => category.name === name) 
+      const hasCategory = get().categories.find(
+        (category) => category.name === name,
+      )
 
-      if(hasCategory) {
+      if (hasCategory) {
         return
       }
-      const { data } = await axios.post("/api/category", {
-        name
+      const { data } = await axios.post('/api/category', {
+        name,
       })
 
-      if(!data) {
+      if (!data) {
         return
       }
 
       const categories = get().categories
-      const category : Category = data
+      const category: Category = data
 
       const newCategories = [...categories, category]
       set({
-        categories: newCategories
+        categories: newCategories,
       })
-
     },
 
     load: async () => {
-
       const categories = await axios({
         url: '/api/category',
-        method: 'get'
+        method: 'get',
       })
-
-
 
       set({
         categories: categories.data,
@@ -75,51 +64,43 @@ export const useStory = create<CategoryStoreProps>((set, get) => {
 
     loadTask: async (currentCategory: Category) => {
       set({
-        isLoadingTask: true
+        isLoadingTask: true,
       })
 
       const tasks = await axios({
         url: `/api/task?categoryId=${currentCategory.id}`,
-        method: 'get'
+        method: 'get',
       })
 
       set({
         tasks: tasks.data,
-        isLoadingTask: false
+        isLoadingTask: false,
       })
 
-      const tasksCompleted = get().tasks.filter(task => task.ischecked)
+      const tasksCompleted = get().tasks.filter((task) => task.ischecked)
 
       set({
-        numberTaskCompleted: tasksCompleted.length
+        numberTaskCompleted: tasksCompleted.length,
       })
-
     },
 
     setCurrentCategory: (id: string) => {
       const categories = get().categories
 
-      const currentCategory = categories.find(category => category.id === id)
-
-
+      const currentCategory = categories.find((category) => category.id === id)
 
       set({
-        currentCategory: currentCategory,
+        currentCategory,
       })
 
       if (currentCategory) {
         get().loadTask(currentCategory)
       }
-
-
-
-
-
     },
 
     updateTask: async (isChecked: boolean, taskId: string) => {
       set({
-        isLoadingTask: true
+        isLoadingTask: true,
       })
       const currentCategory = get().currentCategory
       if (!currentCategory?.id) {
@@ -128,53 +109,49 @@ export const useStory = create<CategoryStoreProps>((set, get) => {
 
       await axios.put(`/api/checked`, {
         isChecked,
-        id: taskId
+        id: taskId,
       })
 
       await get().loadTask(currentCategory)
 
-      const tasksCompleted = get().tasks.filter(task => task.ischecked)
+      const tasksCompleted = get().tasks.filter((task) => task.ischecked)
 
       set({
         numberTaskCompleted: tasksCompleted.length,
-        isLoadingTask: false
+        isLoadingTask: false,
       })
-
     },
 
     createNewTask: async (content: string) => {
-
       const currentCategory = get().currentCategory
 
       set({
-        isLoadingTask: true
+        isLoadingTask: true,
       })
 
-      if(!currentCategory?.name) {
+      if (!currentCategory?.name) {
         return
       }
 
       await axios({
-        method: "post",
-        url: "/api/task",
+        method: 'post',
+        url: '/api/task',
         data: {
           content,
-          categoryName: currentCategory.name
+          categoryName: currentCategory.name,
         },
-      });
+      })
 
       set({
-        isLoadingTask: false
+        isLoadingTask: false,
       })
 
       get().loadTask(currentCategory)
-
-
     },
 
     deleteTask: async (taskId: string) => {
       const currentCategory = get().currentCategory
-      if(!currentCategory) {
+      if (!currentCategory) {
         return
       }
       await axios.delete(`/api/task/delete/${taskId}`)
@@ -183,25 +160,21 @@ export const useStory = create<CategoryStoreProps>((set, get) => {
     },
 
     finishedTask: async () => {
-
       set({
-        isLoadingTask: true
+        isLoadingTask: true,
       })
 
       const currentCategory = get().currentCategory
-      if(!currentCategory) {
+      if (!currentCategory) {
         return
       }
       await axios.delete(`/api/task/${currentCategory.id}`)
 
       set({
         currentCategory: null,
-        isLoadingTask: false
+        isLoadingTask: false,
       })
       await get().load()
-    }
-
-
-
+    },
   }
 })

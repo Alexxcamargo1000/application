@@ -26,7 +26,6 @@
     "axios": "^1.4.0",
     "class-variance-authority": "^0.6.1",
     "clsx": "^1.2.1",
-    "eslint": "8.43.0",
     "eslint-config-next": "13.4.7",
     "lucide-react": "^0.258.0",
     "next": "13.4.7",
@@ -41,7 +40,9 @@
     "zustand": "^4.3.9"
   },
   "devDependencies": {
+    "@rocketseat/eslint-config": "^2.0.1",
     "@tailwindcss/forms": "^0.5.3",
+    "eslint": "^8.45.0",
     "prisma": "^4.16.2",
     "tailwind-scrollbar": "^3.0.4"
   }

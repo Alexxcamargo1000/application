@@ -1,5 +1,5 @@
-import { SignUp } from "@clerk/nextjs";
-import Image from "next/image";
+import { SignUp } from '@clerk/nextjs'
+import Image from 'next/image'
 
 export default function Page() {
   return (
@@ -8,12 +8,7 @@ export default function Page() {
         <h1 className="max-w-sm leading-tight text-zinc-300 text-5xl mb-12 font-extrabold">
           Aplicação para criar <span className="text-teal-600">tarefas</span>
         </h1>
-        <Image
-          src="/taskPreview.svg"
-          alt=""
-          width={400}
-          height={400}
-        />
+        <Image src="/taskPreview.svg" alt="" width={400} height={400} />
       </div>
       <div className="flex items-center justify-center">
         <SignUp />

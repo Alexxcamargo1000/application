@@ -1,8 +1,8 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
-import {ClerkProvider} from '@clerk/nextjs'
-import { dark } from '@clerk/themes';
-import { ptBR } from "@clerk/localizations";
+import { ClerkProvider } from '@clerk/nextjs'
+import { dark } from '@clerk/themes'
+import { ptBR } from '@clerk/localizations'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
@@ -16,22 +16,22 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-
-  
   return (
-    <ClerkProvider localization={ptBR} appearance={{
-      baseTheme: dark,
-      elements: {
-        formFieldInput: "bg-zinc-900 h-12 rounded focus:outline-none focus:ring-1 focus:ring-teal-600",
-        formButtonPrimary: "bg-teal-600 hover:bg-teal-700 transition-colors",
-        footerActionLink: 'text-teal-600 hover:text-teal-600',
-        card: "bg-zinc-900"
-      }
-    }}>
+    <ClerkProvider
+      localization={ptBR}
+      appearance={{
+        baseTheme: dark,
+        elements: {
+          formFieldInput:
+            'bg-zinc-900 h-12 rounded focus:outline-none focus:ring-1 focus:ring-teal-600',
+          formButtonPrimary: 'bg-teal-600 hover:bg-teal-700 transition-colors',
+          footerActionLink: 'text-teal-600 hover:text-teal-600',
+          card: 'bg-zinc-900',
+        },
+      }}
+    >
       <html lang="en">
-        <body className={`${inter.variable} font-inter`}>
-          {children}
-          </body>
+        <body className={`${inter.variable} font-inter`}>{children}</body>
       </html>
     </ClerkProvider>
   )

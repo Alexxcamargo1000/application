@@ -1,99 +1,93 @@
-import { currentUser } from "@clerk/nextjs";
-import { NextResponse } from "next/server";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { currentUser } from '@clerk/nextjs'
+import { NextResponse } from 'next/server'
 import prisma from '@/libs/prisma'
 
 interface IParams {
-  categoryId?: string;
+  categoryId?: string
 }
 
-export async function GET( request: Request, { params }: { params: IParams } ) {
+export async function GET(request: Request, { params }: { params: IParams }) {
   try {
-    const { categoryId } = params;
-    console.log(params);
+    const { categoryId } = params
+    console.log(params)
 
-    const user = await currentUser();
+    const user = await currentUser()
 
-    if(!user?.id) {
-       throw NextResponse.json({message: "usuário invalido"})
+    if (!user?.id) {
+      throw NextResponse.json({ message: 'usuário invalido' })
     }
 
-    if(!categoryId) {
-      throw NextResponse.json({message: "Categoria id está faltando"})
-   }
+    if (!categoryId) {
+      throw NextResponse.json({ message: 'Categoria id está faltando' })
+    }
 
     const category = await prisma.category.findUnique({
       where: {
-        id: categoryId
-      }
+        id: categoryId,
+      },
     })
 
-
-    if(!category?.id) {
-      throw NextResponse.json({message: "Categoria não existe"})
-   }
-  
+    if (!category?.id) {
+      throw NextResponse.json({ message: 'Categoria não existe' })
+    }
 
     const tasks = await prisma.task.findMany({
       where: {
         userId: user.id,
-        categoryId: category?.id
-      }
+        categoryId: category?.id,
+      },
     })
 
-    
-
     return NextResponse.json(tasks)
-    
   } catch (error: any) {
-    throw  NextResponse.json({message: "erro interno"})
+    throw NextResponse.json({ message: 'erro interno' })
   }
 }
 
-export async function DELETE( request: Request, { params }: { params: IParams } ) {
+export async function DELETE(
+  request: Request,
+  { params }: { params: IParams },
+) {
   try {
-    const { categoryId } = params;
-    console.log(params);
+    const { categoryId } = params
+    console.log(params)
 
-    const user = await currentUser();
+    const user = await currentUser()
 
-    if(!user?.id) {
-       throw NextResponse.json({message: "usuário invalido"})
+    if (!user?.id) {
+      throw NextResponse.json({ message: 'usuário invalido' })
     }
 
-    if(!categoryId) {
-      throw NextResponse.json({message: "Categoria id está faltando"})
-   }
+    if (!categoryId) {
+      throw NextResponse.json({ message: 'Categoria id está faltando' })
+    }
 
     const category = await prisma.category.findUnique({
       where: {
-        id: categoryId
-      }
+        id: categoryId,
+      },
     })
 
-
-    if(!category?.id) {
-      throw NextResponse.json({message: "Categoria não existe"})
-   }
-  
+    if (!category?.id) {
+      throw NextResponse.json({ message: 'Categoria não existe' })
+    }
 
     await prisma.task.deleteMany({
       where: {
         userId: user.id,
-        categoryId: category.id
-      }
+        categoryId: category.id,
+      },
     })
 
     await prisma.category.delete({
       where: {
-        id: category.id
-      }
+        id: category.id,
+      },
     })
 
-    
-
-    return NextResponse.json({message: "finalizado"})
-    
+    return NextResponse.json({ message: 'finalizado' })
   } catch (error: any) {
-    throw  NextResponse.json({message: "erro interno"})
+    throw NextResponse.json({ message: 'erro interno' })
   }
 }
