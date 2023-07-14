@@ -22,7 +22,7 @@ export default function RootLayout({
     <ClerkProvider localization={ptBR} appearance={{
       baseTheme: dark,
       elements: {
-        formFieldInput: "bg-zinc-900 rounded focus:outline-none focus:ring-1 focus:ring-teal-600",
+        formFieldInput: "bg-zinc-900 h-12 rounded focus:outline-none focus:ring-1 focus:ring-teal-600",
         formButtonPrimary: "bg-teal-600 hover:bg-teal-700 transition-colors",
         footerActionLink: 'text-teal-600 hover:text-teal-600',
         card: "bg-zinc-900"

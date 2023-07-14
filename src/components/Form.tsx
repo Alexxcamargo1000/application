@@ -27,6 +27,7 @@ export function FormTask() {
       return
     }
     createNewTask(task, category.name)
+    setTask('')
   } 
 
   return (
