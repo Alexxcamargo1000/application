@@ -1,14 +1,15 @@
+
 import { useStory } from "@/store";
 import { CurrentCategory } from "./CurrentCategory";
 import { FormTask } from "./Form";
-import { Task } from "./Task";
 import { useEffect } from "react";
+import { TaskContainer } from "./TaskContainer";
+import { EmptyTask } from "./EmptyTask";
 
 export function Main() {
-
-  const {tasks, load} = useStory((store) => {
+  const { load, currentCategory } = useStory((store) => {
     return {
-      tasks: store.tasks,
+      currentCategory: store.currentCategory,
       load: store.load
     }
   })
@@ -18,25 +19,22 @@ export function Main() {
   }, [load])
 
   return (
-    <div className='flex-1'>
-    <div className='max-w-[90rem] w-full h-screen flex justify-center pt-28'>
-      <div className='max-w-xl w-full'>
-       <CurrentCategory/>
+    <div className='flex-1 flex items-center'>
+    <div className='max-w-[90rem] w-full h-screen flex justify-center pt-20'>
+      <div className='max-w-xl w-full '>
+       <CurrentCategory />
+        {currentCategory === null ? (
+          <EmptyTask/>
+        ) : (
+          <>
+            <FormTask/>
+            <TaskContainer />
+          </>
+        ) }
         
-        <FormTask/>
-
-        <ul className='mt-16 max-h-list overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-900'>
-
-        {tasks.map(task => (
-          <Task key={task.id} {...task} />
-        ))}
 
 
-        </ul>
-
-        <div className='flex w-full justify-end pr-4 mt-6'>
-          <span className='text-sm text-zinc-600'>2/3</span>
-        </div>
+        
       </div>
 
     </div>

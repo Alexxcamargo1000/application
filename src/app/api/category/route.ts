@@ -2,6 +2,7 @@ import { currentUser, useAuth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import prisma from '@/libs/prisma'
 import {z} from 'zod'
+
 export async function POST(
   request: Request,
 ) { 

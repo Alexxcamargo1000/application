@@ -1,7 +1,8 @@
-import { currentUser, useAuth } from "@clerk/nextjs";
+import { currentUser } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import prisma from '@/libs/prisma'
 import {z} from 'zod'
+
 export async function POST(
   request: Request,
 ) { 
@@ -29,6 +30,7 @@ export async function POST(
    throw  NextResponse.json({message: "selecione uma categoria"})
   }
 
+
  const newTask = await prisma.task.create({
     data: {
       content,
@@ -48,7 +50,6 @@ export async function POST(
 export async function GET( request: Request, ) {
   try {
     const { searchParams } = new URL(request.url)
-    console.log(searchParams);
     
     const categoryId = searchParams.get('categoryId') 
     const user = await currentUser();
@@ -76,7 +77,7 @@ export async function GET( request: Request, ) {
     const tasks = await prisma.task.findMany({
       where: {
         userId: user.id,
-        categoryId: category?.id
+        categoryId: category.id
       }
     })
 
@@ -88,3 +89,5 @@ export async function GET( request: Request, ) {
     throw  NextResponse.json({message: "erro interno"})
   }
 }
+
+
