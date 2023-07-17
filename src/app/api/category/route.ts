@@ -20,23 +20,6 @@ export async function POST(request: Request) {
     throw new Error('Usuário nao logado')
   }
 
-  const category = await prisma.category.findUnique({
-    where: {
-      name,
-    },
-    include: {
-      tasks: {
-        where: {
-          userId: user.id,
-        },
-      },
-    },
-  })
-
-  if (category?.name) {
-    return NextResponse.json({ message: 'ja existe uma categoria' })
-  }
-
   const newCategory = await prisma.category.create({
     data: {
       name,
