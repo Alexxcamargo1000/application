@@ -12,8 +12,6 @@ export async function POST(request: Request) {
   const body = await request.json()
   const { name } = bodySchema.parse(body)
 
-  console.log('name', name)
-
   const user = await currentUser()
 
   if (!user?.id) {

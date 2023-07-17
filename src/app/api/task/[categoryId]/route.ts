@@ -10,7 +10,6 @@ interface IParams {
 export async function GET(request: Request, { params }: { params: IParams }) {
   try {
     const { categoryId } = params
-    console.log(params)
 
     const user = await currentUser()
 
@@ -51,7 +50,6 @@ export async function DELETE(
 ) {
   try {
     const { categoryId } = params
-    console.log(params)
 
     const user = await currentUser()
 

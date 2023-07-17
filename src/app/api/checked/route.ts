@@ -18,8 +18,6 @@ export async function PUT(request: Request) {
       },
     })
 
-    console.log(task)
-
     if (!task?.id) {
       return NextResponse.json({ message: 'nao foi possível atualizar' })
     }
