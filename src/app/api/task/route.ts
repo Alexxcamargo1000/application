@@ -7,10 +7,10 @@ import { z } from 'zod'
 export async function POST(request: Request) {
   const bodySchema = z.object({
     content: z.string(),
-    categoryName: z.string(),
+    categoryId: z.string(),
   })
   const body = await request.json()
-  const { content, categoryName } = bodySchema.parse(body)
+  const { content, categoryId } = bodySchema.parse(body)
 
   const user = await currentUser()
 
@@ -20,7 +20,7 @@ export async function POST(request: Request) {
 
   const category = await prisma.category.findUnique({
     where: {
-      name: categoryName,
+      id: categoryId,
     },
   })
 

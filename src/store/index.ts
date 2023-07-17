@@ -138,7 +138,7 @@ export const useStory = create<CategoryStoreProps>((set, get) => {
         url: '/api/task',
         data: {
           content,
-          categoryName: currentCategory.name,
+          categoryId: currentCategory.id,
         },
       })
 
